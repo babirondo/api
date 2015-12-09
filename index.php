@@ -1,0 +1,28 @@
+<?php
+require 'vendor/autoload.php';
+// tentando commitar pro github 
+
+
+//instancie o objeto
+$app = new \Slim\Slim( array(
+    'debug' => true,
+     'templates.path' => './templates'
+) );
+\Slim\Slim::registerAutoloader();
+ 
+//defina a rota
+$app->get('/bruno/:first/:last/', function ($first, $last) use ($app) { 
+	$data = array("data"=>array("H $first $last aaaaaello"=>"World-$name"));
+	$app->render ('default.php',$data,200);
+}); 
+
+//defina a rota
+$app->get('/teste/', function () use ($app) {
+        $data = array("data"=>array("HaaTESTEaaaello"=>"World-$name"));
+        $app->render ('default.php',$data,200);
+});
+
+
+
+//rode a aplicação Slim 
+$app->run();
