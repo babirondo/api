@@ -1,20 +1,18 @@
 <?php
 class db
 {
-	function db ()
-	{
-		
-	}
-	
+
 	function conecta()
 	{
-
+		$localhost = "localhost";
+		$db ="pb";
+		$username = "postgres";
+		$password = "rodr1gues";
+		
 		try { 
-			$pdo = new PDO('mysql:host=localhost;dbname=meuBancoDeDados', $username, $password); 
+			$pdo = new PDO("pgsql:host=$localhost;dbname=$db", $username, $password); 
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			$stmt = $pdo->prepare('INSERT INTO minhaTabela VALUES(:nome)'); 
-			$stmt->execute(array( ':nome' => 'Ricardo Arrigoni' )); 
-			echo $stmt->rowCount(); 
+			 
 		} 
 		catch(PDOException $e) { 
 			echo 'Error: ' . $e->getMessage();
