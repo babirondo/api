@@ -1,4 +1,6 @@
 <?php
+
+// commit feito pelo mac
 require_Once("classes/class_db.php");
 
 $con = new db();
