@@ -1,4 +1,9 @@
 <?php
+require_Once("classes/class_db.php");
+
+$con = new db();
+$con->conecta();
+
 require 'vendor/autoload.php';
 // tentando commitar pro github 
 
@@ -12,14 +17,14 @@ $app = new \Slim\Slim( array(
  
 //defina a rota
 $app->get('/bruno/:first/:last/', function ($first, $last) use ($app) { 
-	$data = array("data"=>array("H $first $last aaaaaello"=>"World-$name"));
+	$data = array("data"=>array("H $first $last aaaaaello World"));
 	$app->render ('default.php',$data,200);
 }); 
 
 //defina a rota
 $app->get('/teste/', function () use ($app) {
-        $data = array("data"=>array("HaaTESTEaaaello"=>"World-$name"));
-        $app->render ('default.php',$data,200);
+	$data = array("data"=>array("H     aaaaaello World- "));
+	$app->render ('default.php',$data,200);
 });
 
 
