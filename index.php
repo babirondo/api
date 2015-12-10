@@ -2,10 +2,10 @@
 // phpinfo();
 
 // commit feito pelo mac
-//require_Once("classes/class_db.php");
+require_Once("classes/class_db.php");
 
-//$con = new db();
-//$con->conecta();
+$con = new db();
+$con->conecta();
 
 require 'vendor/autoload.php';
 // tentando commitar pro github 
