@@ -16,14 +16,17 @@ class api{
  	 		//autenticado
  	 		
  	 		$data = array("data"=>
- 	 				array(	"email" => $this->con->dados["EMAIL"],
+ 	 				array(	"resultado" =>  "SUCESSO",
+ 	 						"email" => $this->con->dados["EMAIL"],
  	 						"nome" => $this->con->dados["NOME"])
  	 		); 	 	
  	 	}
 	 	else {
 	 		// nao encontrado
 	 		$data = array("data"=>
-	 				array(	"erro" => "Nao encontrado" )
+	 						
+	 				array(	"resultado" =>  "ERRO",
+	 						"erro" => "Nao encontrado" )
 	 		);	 		
 	 	} 
 
