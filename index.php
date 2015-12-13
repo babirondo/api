@@ -5,7 +5,10 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 
 //adt for windows 64 http://dl.google.com/android/adt/adt-bundle-windows-x86_64-20140702.zip
 // commit feito pelo mac
-require_Once("classes/class_api.php");
+require_Once("classes/globais.php");
+require_Once("classes/class_Auth.php");
+require_Once("classes/class_Jogador.php");
+
 
 require 'vendor/autoload.php';
 // tentando commitar pro github 
@@ -13,17 +16,25 @@ require 'vendor/autoload.php';
 //instancie o objeto
 $app = new \Slim\Slim( array(
     'debug' => true,
-     'templates.path' => './templates'
+    'templates.path' => './templates'
 ) );
 \Slim\Slim::registerAutoloader();
  
 //defina a rota
 $app->get('/Auth/:login/:senha/', function ($login, $senha) use ($app)  {
-	$api = new api();
-	$api->Auth($login,$senha,$app);
+		$api = new Auth();
+		$api->Autenticar($login,$senha,$app);
+	}  ); 
+
+//defina a rota
+$app->put('/Jogadores/:idJogador/', function ($idJogador ) use ($app)  {
+	$Jog = new Jogador();
+	$Jog->Alterar($app, $idJogador,$app->request->getBody() );
 	
-	
-}  ); 
+	/*
+curl -H 'Content-Type: application/json' -X PUT -d '{"Coach":"0","CornerSnake":"0","Peso":"teste....","CornerDoritos":"0","BackCenter":"1","Altura":"teste....","Time":"teste....","Snake":"0","Num":"teste....","Doritos":"1","nomeJogador":"teste...."}' http://localhost/api/Jogadores/2/
+	 */
+}  );
 
 /*
 //defina a rota

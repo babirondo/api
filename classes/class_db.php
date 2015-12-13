@@ -22,15 +22,42 @@ class db
 	
 	function executa($sql)
 	{
+		 echo "\n".$sql;
+		
 		 
+		 if (substr($sql,0,strpos($sql, " " )  ) == "SELECT")
+		 {
+		 	
+		 	//select
+		 	$select = 1;
+		 	$this->res = $this->pdo->query($sql);
+		 	
+		 }
+		 else{
 		 
-		$this->res = $this->pdo->query($sql);
+		 	//others
+		 	$this->res = $this->pdo->exec($sql);
+		 	
+		 }
+		 	 
    		
-   		if ( $this->res ){
-   			return $this->navega(0);
+	//	var_dump($this->res);
+   		
+   		
+		
+   		
+   		if ( $this->res > 0 ){
+
+   			if ($select == 1)
+   				$this->navega(0);
+   			else
+   				return true;
    		}	
-   		else 	
+   		else{
+   			
    			return false;
+   			
+   		}
 	}
 	
 	function navega($i){

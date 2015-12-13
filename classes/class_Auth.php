@@ -1,6 +1,6 @@
 <?php
-class api{
-	function api( ){
+class Auth{
+	function Auth( ){
 		
 		require("classes/class_db.php");
 		$this->con = new db();
@@ -8,7 +8,7 @@ class api{
 
 	}
 	
-	function Auth($login, $senha, $app){
+	function Autenticar($login, $senha, $app){
 		
 	 	$this->con->executa("SELECT * FROM \"JOGADOR\" WHERE \"EMAIL\" = '$login' and \"SENHA\" = '$senha'");
  
