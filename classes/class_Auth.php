@@ -10,9 +10,10 @@ class Auth{
 	
 	function Autenticar($login, $senha, $app){
 		
-	 	$this->con->executa("SELECT * FROM \"JOGADOR\" WHERE \"EMAIL\" = '$login' and \"SENHA\" = '$senha'");
+	 	
  
- 	 	if ($this->con->res === true){
+ 	 	if ( $this->con->executa("SELECT * FROM \"JOGADOR\" WHERE \"EMAIL\" = '$login' and \"SENHA\" = '$senha'") ){
+ 	 		$this->con->navega();
  	 		//autenticado
  	 		
  	 		$data = array("data"=>

@@ -26,16 +26,17 @@ $app->get('/Auth/:login/:senha/', function ($login, $senha) use ($app)  {
 		$api->Autenticar($login,$senha,$app);
 	}  ); 
 
-//defina a rota
 $app->put('/Jogadores/:idJogador/', function ($idJogador ) use ($app)  {
 	$Jog = new Jogador();
 	$Jog->Alterar($app, $idJogador,$app->request->getBody() );
-	
-	/*
-curl -H 'Content-Type: application/json' -X PUT -d '{"Coach":"0","CornerSnake":"0","Peso":"teste....","CornerDoritos":"0","BackCenter":"1","Altura":"teste....","Time":"teste....","Snake":"0","Num":"teste....","Doritos":"1","nomeJogador":"teste...."}' http://localhost/api/Jogadores/2/
-	 */
 }  );
 
+$app->get('/Jogador/:idJogador/', function ($idJogador) use ($app)  {
+	$Jog = new Jogador();
+	$Jog->CarregarDados($app, $idJogador );
+}  ); 
+
+	
 /*
 //defina a rota
 $app->get('/teste/', function () use ($app) {

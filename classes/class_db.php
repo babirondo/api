@@ -22,10 +22,11 @@ class db
 	
 	function executa($sql)
 	{
-		 echo "\n".$sql;
+	//	 echo "\n".$sql;
+		$this->dados = null;
 		
 		 
-		 if (substr($sql,0,strpos($sql, " " )  ) == "SELECT")
+		 if (substr(TRIM(STRTOUPPER($sql)),0,strpos(TRIM(STRTOUPPER($sql)), " " )  ) == "SELECT")
 		 {
 		 	
 		 	//select
@@ -48,9 +49,9 @@ class db
    		
    		if ( $this->res > 0 ){
 
-   			if ($select == 1)
-   				$this->navega(0);
-   			else
+   			//if ($select == 1)
+   			//	$this->navega(0);
+   			//else
    				return true;
    		}	
    		else{
@@ -60,15 +61,15 @@ class db
    		}
 	}
 	
-	function navega($i){
+	function navega( ){
 		
-			$this->dados = $this->res->fetch(PDO::FETCH_ASSOC);	
+			$this->dados = $this->res->fetch(PDO::FETCH_ASSOC, $i);	
 			 
 			if ($this->dados === false ){
-				return $this->res = false;
+				return   false;
 			}	
 			else{
-				return $this->res = true;
+				return   true;
 			} 
 				
 	}
