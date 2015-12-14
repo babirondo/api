@@ -26,7 +26,8 @@ class Jogador{
 		$array["Time"] = $this->con->dados["TIME"] ;
 		$array["Peso"] =  $this->con->dados["PESO"];
 		$array["Altura"] =  $this->con->dados["ALTURA"];
-
+		$array["fotoJogador"] =  $this->con->dados["FOTOJOGADOR"];
+		
 		// carregando posicoes do jogador
 		$this->con->executa( " select  *
 								from \"JOGADOR_POSICOES\" 
@@ -91,7 +92,8 @@ WHERE tj.\"ID_JOGADOR\" =   '".$idJogador."'");
 	 							\"NOME\"= '".$json["nomeJogador"]   ."',
 	 							\"PESO\"= '".$json["Peso"]   ."',
 	 							\"ALTURA\"= '".$json["Altura"]   ."',
-	 							\"NUM\"= '".$json["Num"]."'
+	 							\"NUM\"= '".$json["Num"]."',
+	 							\"FOTOJOGADOR\"= '".$json["fotoJogador"]."'
 	 						WHERE \"ID_JOGADOR\"  = '".$idJogador."' ") === false ) 
 	 		$erro = 1;
 	 						
