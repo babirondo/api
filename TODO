@@ -1,8 +1,8 @@
 login com facebook
 autenticacao enviar senha via body
-avatar no formJogador
+-- avatar no formJogador
 incluir voltar no formJogador
-substituir imagens de posicao do formJogador
+-- substituir imagens de posicao do formJogador
 Incluir modalidade Open/Amador no formJogador
 incluir cep no formJogador
 incluir nota do jogador
