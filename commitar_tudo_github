@@ -1,4 +1,5 @@
+#! /bin/bash
 pg_dump -h localhost -U postgres -C  pb > BD/dump.sql;
 git add . ;
-git commit -m "Commitando tudo automaticamente";
+git commit -m "$1";
 git push;
