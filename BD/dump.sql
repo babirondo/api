@@ -53,6 +53,41 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: FEED; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "FEED" (
+    "ID_FEED" integer NOT NULL,
+    "ID_JOGADOR" integer,
+    "NEW" text,
+    "PUBLICADO" timestamp without time zone
+);
+
+
+ALTER TABLE "FEED" OWNER TO postgres;
+
+--
+-- Name: FEED_ID_FEED_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "FEED_ID_FEED_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "FEED_ID_FEED_seq" OWNER TO postgres;
+
+--
+-- Name: FEED_ID_FEED_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "FEED_ID_FEED_seq" OWNED BY "FEED"."ID_FEED";
+
+
+--
 -- Name: JOGADOR; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -262,6 +297,13 @@ ALTER SEQUENCE "TIME_JOGADOR_POSICOES_ID_TIME_JOGADOR_POSICAO_seq" OWNED BY "TIM
 
 
 --
+-- Name: ID_FEED; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "FEED" ALTER COLUMN "ID_FEED" SET DEFAULT nextval('"FEED_ID_FEED_seq"'::regclass);
+
+
+--
 -- Name: ID_JOGADOR; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -304,6 +346,22 @@ ALTER TABLE ONLY "TIME_JOGADOR_POSICOES" ALTER COLUMN "ID_TIME_JOGADOR_POSICAO" 
 
 
 --
+-- Data for Name: FEED; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "FEED" ("ID_FEED", "ID_JOGADOR", "NEW", "PUBLICADO") FROM stdin;
+14	2	TESTE DE PUBLICACAO	2015-12-16 19:27:31.81161
+\.
+
+
+--
+-- Name: FEED_ID_FEED_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"FEED_ID_FEED_seq"', 14, true);
+
+
+--
 -- Data for Name: JOGADOR; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -324,10 +382,9 @@ SELECT pg_catalog.setval('"JOGADOR_ID_JOGADOR_seq"', 2, true);
 --
 
 COPY "JOGADOR_POSICOES" ("ID_JOGADOR", "ID_POSICAO_JOGADOR", "ID_POSICAO") FROM stdin;
-2	104	1
 2	105	2
 2	107	6
-2	111	4
+2	131	4
 \.
 
 
@@ -335,7 +392,7 @@ COPY "JOGADOR_POSICOES" ("ID_JOGADOR", "ID_POSICAO_JOGADOR", "ID_POSICAO") FROM 
 -- Name: JOGADOR_POSICOES_ID_POSICAO_JOGADOR_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"JOGADOR_POSICOES_ID_POSICAO_JOGADOR_seq"', 111, true);
+SELECT pg_catalog.setval('"JOGADOR_POSICOES_ID_POSICAO_JOGADOR_seq"', 131, true);
 
 
 --
@@ -397,10 +454,10 @@ SELECT pg_catalog.setval('"TIME_JOGADORES_ID_TIME_JOGADOR_seq"', 9, true);
 
 COPY "TIME_JOGADOR_POSICOES" ("ID_TIME_JOGADOR_POSICAO", "ID_TIME_JOGADOR", "ID_POSICAO") FROM stdin;
 59	9	1
-60	9	2
 61	9	3
 62	9	4
 63	9	5
+64	9	2
 \.
 
 
@@ -408,7 +465,7 @@ COPY "TIME_JOGADOR_POSICOES" ("ID_TIME_JOGADOR_POSICAO", "ID_TIME_JOGADOR", "ID_
 -- Name: TIME_JOGADOR_POSICOES_ID_TIME_JOGADOR_POSICAO_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"TIME_JOGADOR_POSICOES_ID_TIME_JOGADOR_POSICAO_seq"', 63, true);
+SELECT pg_catalog.setval('"TIME_JOGADOR_POSICOES_ID_TIME_JOGADOR_POSICAO_seq"', 64, true);
 
 
 --

@@ -7,6 +7,7 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 // commit feito pelo mac
 require_Once("classes/globais.php");
 require_Once("classes/class_Auth.php");
+require_Once("classes/class_Feed.php");
 require_Once("classes/class_Jogador.php");
 
 
@@ -36,6 +37,15 @@ $app->get('/Jogador/:idJogador/', function ($idJogador) use ($app)  {
 	$Jog->CarregarDados($app, $idJogador );
 }  ); 
 
+$app->get('/Feed/', function ( ) use ($app)  {
+	$Feed = new Feed();
+	$Feed->CarregarFeed($app );
+}  );
+
+$app->put('/RegistrarFeed/', function ( ) use ($app)  {
+	$Feed = new Feed();
+	$Feed->RegistrarFeed( $app, $app->request->getBody() );
+}  );
 	
 /*
 //defina a rota
