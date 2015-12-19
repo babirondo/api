@@ -11,14 +11,15 @@ class Auth{
 	function Autenticar($login, $senha, $app){
 		
 	 	
- 
- 	 	if ( $this->con->executa("SELECT * FROM \"JOGADOR\" WHERE \"EMAIL\" = '$login' and \"SENHA\" = '$senha'") ){
+		$this->con->executa("SELECT * FROM \"JOGADOR\" WHERE \"EMAIL\" = '$login' and \"SENHA\" = '$senha'");
+ 	 	if ( $this->con->nrw > 0 ){
  	 		$this->con->navega();
  	 		//autenticado
  	 		
  	 		$data = array("data"=>
  	 				array(	"resultado" =>  "SUCESSO",
  	 						"email" => $this->con->dados["EMAIL"],
+ 	 						"id_jogador" => $this->con->dados["ID_JOGADOR"],
  	 						"nome" => $this->con->dados["NOME"])
  	 		); 	 	
  	 	}

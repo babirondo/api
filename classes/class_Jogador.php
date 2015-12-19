@@ -9,6 +9,65 @@ class Jogador{
 		$this->con->conecta();
 
 	}
+
+	function NovoJogador($app , $jsonRAW){
+		GLOBAL $IDPosicao;
+		$json = json_decode( $jsonRAW, true );
+		IF ($json == NULL) {
+			$data = array("data"=>
+						
+					array(	"resultado" =>  "ERRO",
+							"erro" => "JSON zuado - $jsonRAW" )
+			);
+				
+				
+			$app->render ('default.php',$data,500);
+			return false;
+		}
+		//var_dump($json);
+	
+		//	curl -H 'Content-Type: application/json' -X PUT -d '{"Senha":"Bruno Siqueira","Email":"Bruno Siqueira","Nome":"Bruno Siqueira"}' http://localhost/api/Jogador/New/
+		/*
+	
+	
+	
+		*/
+		$erro = 0;
+	
+		//dados cadastrais
+		if (  $this->con->executa( "INSERT INTO \"JOGADOR\" ( \"NOME\", \"EMAIL\", \"SENHA\" )  
+									VALUES ('".$json["Nome"]."','".$json["Email"]."','".$json["Senha"]."')
+									RETURNING \"ID_JOGADOR\" ", 1 ) === false )
+			$erro = 1;
+		else{
+			$lastInsertId =  $this->con->dados["ID_JOGADOR"];
+				
+		}
+			     
+	
+			if ($erro == 0){
+				//autenticado
+				 
+				$data = array("data"=>
+						array(	"resultado" =>  "SUCESSO",
+								"idJogador" => $lastInsertId
+						)
+				);
+			}
+			else {
+				// nao encontrado
+				$data = array("data"=>
+	
+						array(	"resultado" =>  "ERRO #$erro",
+								"erro" => "Nao encontrado" )
+				);
+			}
+	
+			$app->render ('default.php',$data,200);
+	}
+	
+	
+	
 	
 	function CarregarDados($app, $idJogador){
 	 

@@ -31,6 +31,10 @@ $app->put('/Jogadores/:idJogador/', function ($idJogador ) use ($app)  {
 	$Jog = new Jogador();
 	$Jog->Alterar($app, $idJogador,$app->request->getBody() );
 }  );
+$app->put('/Jogador/New/', function (  ) use ($app)  {
+	$Jog = new Jogador();
+	$Jog->NovoJogador($app,  $app->request->getBody() );
+}  );
 
 $app->get('/Jogador/:idJogador/', function ($idJogador) use ($app)  {
 	$Jog = new Jogador();
