@@ -10,6 +10,84 @@ class Jogador{
 
 	}
 
+	function Pesquisar($app, $jsonRAW){
+		GLOBAL $IDPosicao;
+		$json = json_decode( $jsonRAW, true );
+		IF ($json == NULL) {
+			$data = array("data"=>
+		
+					array(	"resultado" =>  "ERRO",
+							"erro" => "JSON zuado - $jsonRAW" )
+			);
+		
+		
+			$app->render ('default.php',$data,500);
+			return false;
+		}
+		 
+		//	curl -H 'Content-Type: application/json' -X PUT -d '
+		//{"ForcaDe":"1","ForcaAte":"1","Coach":"","CornerSnake":"","Peso":"32",
+		//"CornerDoritos":"","BackCenter":"","Altura":"3.2","Time":"3","Snake":"",
+		//"Num":"13 .....","Doritos":"","Nome":"testando ....."}'
+//				http://localhost/api/Jogadores/Pesquisar/
+		
+		$opt_where = null;
+		if ($json["Nome"]) $opt_where[] = " \"NOME\" LIKE '".str_replace(" ","%",$json["Nome"])."' ";
+		if ($json["Time"]) $opt_where[] = " T.\"ID_TIME\" = '".$json["Time"]."' ";
+		if ($json["Altura"]) $opt_where[] = " \"ALTURA\" = '".$json["Altura"]."' ";
+		if ($json["Peso"]) $opt_where[] = " \"PESO\" = '".$json["Peso"]."' ";
+		if ($json["ForcaDe"] && $json["ForcaAte"]) $opt_where[] = " \"FORCA\" between '".$json["ForcaDe"]."' and '".$json["ForcaAte"]."'  ";
+		
+		$where = " WHERE ".join($opt_where, " and ");
+		
+		//".$json["Email"]."
+		$this->con->executa( " select  J.*, T.*
+								from \"JOGADOR\" J
+									LEFT JOIN \"TIME_JOGADORES\" TJ ON (TJ.\"ID_JOGADOR\" = J.\"ID_JOGADOR\")
+									LEFT JOIN \"TIMES\" T ON (T.\"ID_TIME\" = TJ.\"ID_TIME\")
+								 $where ");
+//		echo "linhas encontradas ".$this->con->nrw;
+		IF ($this->con->nrw >0){
+			//$this->con->navega();
+			
+			
+			$i=0;
+			while ($this->con->navega()){
+				$array["RESULTSET"][$i]["NOME"]  = $this->con->dados["NOME"];
+				$array["RESULTSET"][$i]["TIME"]  = $this->con->dados["TIME"];
+				$array["RESULTSET"][$i]["ID_JOGADOR"]  = $this->con->dados["ID_JOGADOR"];
+				$array["RESULTSET"][$i]["FOTOJOGADOR"]  = $this->con->dados["FOTOJOGADOR"];
+				$array["RESULTSET"][$i]["NEW"]  = $this->con->dados["NEW"];
+				$i++;
+			}
+				
+			
+	
+		
+			$data =  	$array;
+			$app->render ('default.php',$data,200);
+				
+		}
+		else{
+		
+	
+	 
+			$data = array("data"=>
+		
+					array(	"resultado" =>  "NOTFOUND",
+							"erro" => "Nenhum Registro encontrado - $where" )
+			);
+			$app->render ('default.php',$data,404);
+		}	
+		
+	
+	
+	
+	
+	}
+	
+	
+	
 	function NovoJogador($app , $jsonRAW){
 		GLOBAL $IDPosicao;
 		$json = json_decode( $jsonRAW, true );

@@ -27,7 +27,7 @@ $app->get('/Auth/:login/:senha/', function ($login, $senha) use ($app)  {
 		$api->Autenticar($login,$senha,$app);
 	}  ); 
 
-$app->put('/Jogadores/:idJogador/', function ($idJogador ) use ($app)  {
+$app->put('/Jogador/Alterar/:idJogador/', function ($idJogador ) use ($app)  {
 	$Jog = new Jogador();
 	$Jog->Alterar($app, $idJogador,$app->request->getBody() );
 }  );
@@ -40,6 +40,11 @@ $app->get('/Jogador/:idJogador/', function ($idJogador) use ($app)  {
 	$Jog = new Jogador();
 	$Jog->CarregarDados($app, $idJogador );
 }  ); 
+$app->put('/Jogadores/Pesquisar/', function () use ($app)  {
+	$Jog = new Jogador();
+	$Jog->Pesquisar($app, $app->request->getBody() );
+}  );
+	
 
 $app->get('/Feed/', function ( ) use ($app)  {
 	$Feed = new Feed();

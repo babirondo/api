@@ -36,10 +36,6 @@ class db
 		 	$select = 1;
 		 	$this->res = $this->pdo->query($sql);
 		 	$this->nrw = $this->res->rowCount();
-		 	
-		 	if ($show_sql)
-		 		echo "\n AAAAAAA ".$sql;
-		 	
 		 }
 		 else{
 		 	if ($prepared == 1)
@@ -52,23 +48,17 @@ class db
 		 			
 		 		}
 		 		else
-		 			$this->res = false;
-		 		 
-				
+		 			$this->res = false;				
 		 	}
 		 	else{
 		 		//others
 		 		$this->res = $this->pdo->exec($sql);
 		 		//$a =  $this->pdo->fetchAll(); var_dump($a);
 		 				 
-		 	}
-		 
-		 	
-		 	if ($show_sql)
-		 		echo "\n BBBBBB ".$sql;
-		 	
+		 	}		 	
 		 }
-		 	 
+		 if ($show_sql) echo "\n BBBBBB ".$sql;
+		 		
    		
 	//	var_dump($this->res);
    		
