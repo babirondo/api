@@ -10,6 +10,74 @@ class Jogador{
 
 	}
 
+	function Recomendar($app , $jsonRAW){
+		GLOBAL $IDPosicao;
+		$json = json_decode( $jsonRAW, true );
+		IF ($json == NULL) {
+			$data = array("data"=>
+	
+					array(	"resultado" =>  "ERRO",
+							"erro" => "JSON zuado - $jsonRAW" )
+			);
+	
+	
+			$app->render ('default.php',$data,500);
+			return false;
+		}
+		//var_dump($json);
+	
+		//	curl -H 'Content-Type: application/json' -X PUT -d '{"notaCornerDoritos":"5.0","notaBackCenter":"5.0","notaVelocidade":"0.0","notaConhecimento":"0.0","notaDoritos":"0.0","notaCoach":"0.0","notaCornerSnake":"0.0","notaGunfight":"0.0","notaSnake":"5.0"}' http://localhost/api/Jogador/Recomendar/2/
+		/*
+	
+	
+	
+		*/
+		$erro = 0;
+	
+		//dados cadastrais
+		if (  $this->con->executa( " INSERT INTO PUBLIC.\"RECOMENDACAO\" 
+( \"ID_RECOMENDADO\", \"ID_RECOMENDANDO\",  
+   \"BACKCENTER\", \"SNAKE\", \"DORITOS\", 
+   \"CORNERSNAKE\", \"CORNERDORITOS\", \"COACH\"
+)
+
+VALUES (
+	'1 ','2 ',
+	' 4',' 5','6 ',
+	' 7',' 8','9 '
+	)
+
+RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
+			$erro = 1;
+			else{
+				$lastInsertId =  $this->con->dados["ID_RECOMENDACAO"];
+	
+			}
+	
+	
+			if ($erro == 0){
+				//autenticado
+					
+				$data = array("data"=>
+						array(	"resultado" =>  "SUCESSO",
+								"ID_RECOMENDACAO" => $lastInsertId
+						)
+				);
+			}
+			else {
+				// nao encontrado
+				$data = array("data"=>
+	
+						array(	"resultado" =>  "ERRO #$erro",
+								"erro" => "Nao encontrado" )
+				);
+			}
+	
+			$app->render ('default.php',$data,200);
+	}
+		
+	
+	
 	function Pesquisar($app, $jsonRAW){
 		GLOBAL $IDPosicao;
 		$json = json_decode( $jsonRAW, true );
