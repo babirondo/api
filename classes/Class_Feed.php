@@ -28,6 +28,7 @@ class Feed{
 				$array["FEED"][$i]["TIME"]  = $this->con->dados["TIME"];
 				$array["FEED"][$i]["FOTOJOGADOR"]  = $this->con->dados["FOTOJOGADOR"];
 				$array["FEED"][$i]["NEW"]  = $this->con->dados["NEW"];
+				$array["FEED"][$i]["PWR"]  = $this->con->dados["PWR"];
 				$i++;
 		}
 	 
@@ -42,21 +43,20 @@ class Feed{
 	
 	function RegistrarFeed($app , $jsonRAW){
 		 
-		$json = json_decode( $jsonRAW, true );
+			$json = json_decode( $jsonRAW, true );
 		IF ($json == NULL) {
 			$data = array("data"=>
-						
+	
 					array(	"resultado" =>  "ERRO",
 							"erro" => "JSON zuado - $jsonRAW" )
 			);
-				
-				
-			$app->render ('default.php',$data,200);
+	
+	
+			$app->render ('default.php',$data,500);
 			return false;
 		}
-		//var_dump($json);
-	
-		//	curl -H 'Content-Type: application/json' -X PUT -d '{"IDJOGADOR":"2","MENSAGEM":"Editou seu cadastro"}' http://localhost/api/RegistrarFeed/
+		
+		//	curl -H 'Content-Type: application/json' -X PUT -d '{"MENSAGEM":"Fez uma recomendação de um Jogador","idJogador":"86"}' http://localhost/api/RegistrarFeed/
 		/*
 	
 	

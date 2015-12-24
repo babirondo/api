@@ -10,7 +10,7 @@ class Jogador{
 
 	}
 
-	function Recomendar($app , $jsonRAW){
+	function Recomendar($app , $id_recomendado, $jsonRAW){
 		GLOBAL $IDPosicao;
 		$json = json_decode( $jsonRAW, true );
 		IF ($json == NULL) {
@@ -42,9 +42,9 @@ class Jogador{
 )
 
 VALUES (
-	'1 ','2 ',
-	' 4',' 5','6 ',
-	' 7',' 8','9 '
+	'".$id_recomendado."','".$json["ID_RECOMENDANDO"]."',
+	'".$json["notaBackCenter"]."','".$json["notaSnake"]."','".$json["notaDoritos"]."',
+	'".$json["notaCornerSnake"]."','".$json["notaCornerDoritos"]."','".$json["notaCoach"]."'
 	)
 
 RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
@@ -123,6 +123,7 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 			while ($this->con->navega()){
 				$array["RESULTSET"][$i]["NOME"]  = $this->con->dados["NOME"];
 				$array["RESULTSET"][$i]["TIME"]  = $this->con->dados["TIME"];
+				$array["RESULTSET"][$i]["PWR"]  = $this->con->dados["PWR"];
 				$array["RESULTSET"][$i]["ID_JOGADOR"]  = $this->con->dados["ID_JOGADOR"];
 				$array["RESULTSET"][$i]["FOTOJOGADOR"]  = $this->con->dados["FOTOJOGADOR"];
 				$array["RESULTSET"][$i]["NEW"]  = $this->con->dados["NEW"];
@@ -228,6 +229,7 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 		$array["Nome"] =  $this->con->dados["NOME"];
 		$array["Num"] =   $this->con->dados["NUM"];
 		$array["IDTime"] = $this->con->dados["ID_TIME"] ;
+		$array["PWR"] = $this->con->dados["PWR"] ;
 		$array["Time"] = $this->con->dados["TIME"] ;
 		$array["Peso"] =  $this->con->dados["PESO"];
 		$array["Altura"] =  $this->con->dados["ALTURA"];
