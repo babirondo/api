@@ -36,16 +36,19 @@ class Jogador{
 	
 		//dados cadastrais
 		if (  $this->con->executa( " INSERT INTO PUBLIC.\"RECOMENDACAO\" 
-( \"ID_RECOMENDADO\", \"ID_RECOMENDANDO\",  
+( \"ID_RECOMENDADO\", \"ID_RECOMENDANDO\",  DATA, 
    \"BACKCENTER\", \"SNAKE\", \"DORITOS\", 
-   \"CORNERSNAKE\", \"CORNERDORITOS\", \"COACH\"
+   \"CORNERSNAKE\", \"CORNERDORITOS\", \"COACH\",
+   \"GUNFIGHT\", \"CONHECIMENTO\", \"VELOCIDADE\"
+				
 )
 
 VALUES (
-	'".$id_recomendado."','".$json["ID_RECOMENDANDO"]."',
+	'".$id_recomendado."','".$json["ID_RECOMENDANDO"]."', NOW(), 
 	'".$json["notaBackCenter"]."','".$json["notaSnake"]."','".$json["notaDoritos"]."',
-	'".$json["notaCornerSnake"]."','".$json["notaCornerDoritos"]."','".$json["notaCoach"]."'
-	)
+	'".$json["notaCornerSnake"]."','".$json["notaCornerDoritos"]."','".$json["notaCoach"]."',
+	'".$json["notaGunfight"]."','".$json["notaConhecimento"]."','".$json["notaVelocidade"]."'
+				)
 
 RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 			$erro = 1;
@@ -93,13 +96,12 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 			return false;
 		}
 		 
-		//	curl -H 'Content-Type: application/json' -X PUT -d '
-		//{"ForcaDe":"1","ForcaAte":"1","Coach":"","CornerSnake":"","Peso":"32",
-		//"CornerDoritos":"","BackCenter":"","Altura":"3.2","Time":"3","Snake":"",
-		//"Num":"13 .....","Doritos":"","Nome":"testando ....."}'
-//				http://localhost/api/Jogadores/Pesquisar/
+		//	curl -H 'Content-Type: application/json' -X PUT -d '{"ForcaDe":"","ForcaAte":"","CornerDoritos":"","Snake":"","Num":"","IdJogadorLogado":"2","Coach":"","CornerSnake":"","Peso":"","BackCenter":"","Altura":"","Time":"3","Doritos":"","Nome":""}' http://localhost/api/Jogadores/Pesquisar/
+		
+		
 		
 		$opt_where = null;
+		if ($json["IdJogadorLogado"]) $opt_where[] = " J.\"ID_JOGADOR\" != '". $json["IdJogadorLogado"] ."' ";
 		if ($json["Nome"]) $opt_where[] = " \"NOME\" LIKE '".str_replace(" ","%",$json["Nome"])."' ";
 		if ($json["Time"]) $opt_where[] = " T.\"ID_TIME\" = '".$json["Time"]."' ";
 		if ($json["Altura"]) $opt_where[] = " \"ALTURA\" = '".$json["Altura"]."' ";
@@ -109,11 +111,12 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 		$where = " WHERE ".join($opt_where, " and ");
 		
 		//".$json["Email"]."
-		$this->con->executa( " select  J.*, T.*
+		$sql = " select  J.*, T.*
 								from \"JOGADOR\" J
 									LEFT JOIN \"TIME_JOGADORES\" TJ ON (TJ.\"ID_JOGADOR\" = J.\"ID_JOGADOR\")
 									LEFT JOIN \"TIMES\" T ON (T.\"ID_TIME\" = TJ.\"ID_TIME\")
-								 $where ");
+								 $where ";
+		$this->con->executa( $sql);
 //		echo "linhas encontradas ".$this->con->nrw;
 		IF ($this->con->nrw >0){
 			//$this->con->navega();
@@ -123,7 +126,7 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 			while ($this->con->navega()){
 				$array["RESULTSET"][$i]["NOME"]  = $this->con->dados["NOME"];
 				$array["RESULTSET"][$i]["TIME"]  = $this->con->dados["TIME"];
-				$array["RESULTSET"][$i]["PWR"]  = $this->con->dados["PWR"];
+				$array["RESULTSET"][$i]["PWR"]  = $this->con->dados["FORCA"];
 				$array["RESULTSET"][$i]["ID_JOGADOR"]  = $this->con->dados["ID_JOGADOR"];
 				$array["RESULTSET"][$i]["FOTOJOGADOR"]  = $this->con->dados["FOTOJOGADOR"];
 				$array["RESULTSET"][$i]["NEW"]  = $this->con->dados["NEW"];
@@ -229,15 +232,16 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 		$array["Nome"] =  $this->con->dados["NOME"];
 		$array["Num"] =   $this->con->dados["NUM"];
 		$array["IDTime"] = $this->con->dados["ID_TIME"] ;
-		$array["PWR"] = $this->con->dados["PWR"] ;
+		$array["PWR"] = $this->con->dados["FORCA"] ;
 		$array["Time"] = $this->con->dados["TIME"] ;
 		$array["Peso"] =  $this->con->dados["PESO"];
 		$array["Altura"] =  $this->con->dados["ALTURA"];
 		$array["fotoJogador"] =  $this->con->dados["FOTOJOGADOR"];
 		
-		$this->con->executa( " select  COUNT(*) TOTAL, 
-									AVG(\"SNAKE\") SNAKE , AVG(\"BACKCENTER\") BACKCENTER, AVG(\"DORITOS\") DORITOS,	 
-									AVG(\"COACH\") COACH, AVG(\"CORNERSNAKE\") CORNERSNAKE, AVG(\"CORNERDORITOS\") CORNERDORITOS		
+		$this->con->executa( " select  COUNT(*) total_recomendacoes, 
+									AVG(\"SNAKE\") notaSnake , AVG(\"BACKCENTER\") notaBackCenter, AVG(\"DORITOS\") notaDoritos, 
+									AVG(\"COACH\") notaCoach, AVG(\"CORNERSNAKE\") notaCornerSnake, AVG(\"CORNERDORITOS\") notaCornerDoritos,
+									AVG(\"GUNFIGHT\") notaGunfight, AVG(\"CONHECIMENTO\") notaConhecimento, AVG(\"VELOCIDADE\") notaVelocidade	
 				
 			 
 								from \"RECOMENDACAO\" J 
@@ -245,6 +249,19 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 		$this->con->navega();
 		  
 		$array["Avaliacoes"] = (($this->con->dados["total_recomendacoes"])?$this->con->dados["total_recomendacoes"] : 0) ;
+		$array["notaVelocidade"] = (($this->con->dados["notavelocidade"])?$this->con->dados["notavelocidade"] : 0) ;
+		$array["notaConhecimento"] = (($this->con->dados["notaconhecimento"])?$this->con->dados["notaconhecimento"] : 0) ;
+		$array["notaGunfight"] = (($this->con->dados["notagunfight"])?$this->con->dados["notagunfight"] : 0) ;
+		$array["notaSnake"] = (($this->con->dados["notasnake"])?$this->con->dados["notasnake"] : 0) ;
+		$array["notaDoritos"] = (($this->con->dados["notadoritos"])?$this->con->dados["notadoritos"] : 0) ;
+		$array["notaBackCenter"] = (($this->con->dados["notabackcenter"])?$this->con->dados["notabackcenter"] : 0) ;
+		$array["notaCornerSnake"] = (($this->con->dados["notacornersnake"])?$this->con->dados["notacornersnake"] : 0) ;
+		$array["notaCornerDoritos"] = (($this->con->dados["notacornerdoritos"])?$this->con->dados["notacornerdoritos"] : 0) ;
+		$array["notaCoach"] = (($this->con->dados["notacoach"])?$this->con->dados["notacoach"] : 0) ;
+		
+		$array["notaVelocidade"] = (($this->con->dados["notavelocidade"])?$this->con->dados["notavelocidade"] : 0) ;
+		$array["notaGunfight"] = (($this->con->dados["notagunfight"])?$this->con->dados["notagunfight"] : 0) ;
+		$array["notaConhecimento"] = (($this->con->dados["notaconhecimento"])?$this->con->dados["notaconhecimento"] : 0) ;
 		
 		
 		// carregando posicoes do jogador
