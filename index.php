@@ -9,6 +9,7 @@ require_Once("classes/globais.php");
 require_Once("classes/class_Auth.php");
 require_Once("classes/class_Feed.php");
 require_Once("classes/class_Jogador.php");
+require_Once("classes/Class_Times.php");
 
 
 require 'vendor/autoload.php';
@@ -48,6 +49,12 @@ $app->put('/Jogadores/Pesquisar/', function () use ($app)  {
 	$Jog = new Jogador();
 	$Jog->Pesquisar($app, $app->request->getBody() );
 }  );
+$app->get('/Time/byJogador/:idJogador/', function ($idJogador) use ($app)  {
+	$Time = new Times();
+	$Time->CarregarTimebyIdJogador($app,   $idJogador);
+}  );
+	
+
 	
 
 $app->get('/Feed/', function ( ) use ($app)  {

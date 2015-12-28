@@ -1,24 +1,26 @@
 login com facebook
 autenticacao enviar senha via body
 -- avatar no formJogador
-incluir voltar no formJogador
 -- substituir imagens de posicao do formJogador
 Incluir modalidade Open/Amador no formJogador
 incluir cep no formJogador
-incluir nota do jogador
+-- incluir nota do jogador
 incluir telefone no formJogador
 incluir cv no formJogador
 	campeonatos jogados e transito entre times
-procurar jogadores
+-- procurar jogadores
 x pessoas viram o seu perfil
-
+melhorar layout
+criar notificacoes quando receber recomendacoes
+criar convocacao de tryout
+criar chamada para treinos
 
 descorbri jogadores perto de vc
 enviar mensagem para jogador
 enviar mensagem: chamar para o treino
 x feed de noticias dos jogadores
 	publicar uma noticia no feed com ou sem foto
-avaliacao de outros jogadores
+-- avaliacao de outros jogadores
 resenha da experiencia jogando com e contra
 relacao das skills de cada player
 sugestoes
