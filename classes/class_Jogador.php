@@ -235,6 +235,18 @@ RETURNING \"ID_RECOMENDACAO\" ", 1 ) === false )
 		$array["Altura"] =  $this->con->dados["ALTURA"];
 		$array["fotoJogador"] =  $this->con->dados["FOTOJOGADOR"];
 		
+		$this->con->executa( " select  COUNT(*) TOTAL, 
+									AVG(\"SNAKE\") SNAKE , AVG(\"BACKCENTER\") BACKCENTER, AVG(\"DORITOS\") DORITOS,	 
+									AVG(\"COACH\") COACH, AVG(\"CORNERSNAKE\") CORNERSNAKE, AVG(\"CORNERDORITOS\") CORNERDORITOS		
+				
+			 
+								from \"RECOMENDACAO\" J 
+								WHERE J.\"ID_RECOMENDADO\"= '".$idJogador."'  ");
+		$this->con->navega();
+		  
+		$array["Avaliacoes"] = (($this->con->dados["total_recomendacoes"])?$this->con->dados["total_recomendacoes"] : 0) ;
+		
+		
 		// carregando posicoes do jogador
 		$this->con->executa( " select  *
 								from \"JOGADOR_POSICOES\" 
